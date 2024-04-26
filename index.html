@@ -368,7 +368,7 @@ document.getElementById("select-y-var").addEventListener("change", (e)=>{
     svg.selectAll("myrect")
       .data(allgroups)
       .join("circle")
-        .attr("cx", -400)
+        .attr("cx", -200)
         .attr("cy", (d,i) => 100 + i*(size+5)) // 100 is where the first dot appears. 25 is the distance between dots
         .attr("r", 7)
         .style("fill", d =>  myColor(d))
@@ -382,7 +382,7 @@ document.getElementById("select-y-var").addEventListener("change", (e)=>{
       .data(["AsiaOceania", "Europe", "NorthAmerica", "SouthAmerica", "Africa"])
       .enter()
       .append("text")
-        .attr("x", -400 + size*.8)
+        .attr("x", -200 + size*.8)
         .attr("y", (d,i) =>  92 + i * (size + 5) + (size/2)) // 100 is where the first dot appears. 25 is the distance between dots
         .style("fill", d => myColor(d))
         .text((d, i) => legendText[i])
@@ -432,7 +432,6 @@ document.getElementById("select-y-var").addEventListener("change", (e)=>{
             </tr>
             </table>
           </div>
-
     </div> 
 </body>
 </html>
