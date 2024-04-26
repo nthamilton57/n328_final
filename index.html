@@ -105,7 +105,7 @@
 // 2. Type ID
 function type(d) {
  return {
-    Country: +d.Country,
+    CID: +d.CID,
     Country: d.Country,
     Continent: d.Continent,
     Happiness: +d.Happiness,
@@ -167,10 +167,10 @@ let yScale = d3.scaleLinear()
 let yVar = "Happiness";
 
 let pubColors = {
-    "Asia & Oceania": "#d62728",
+    "AsiaOceania": "#d62728",
     "Europe": "#1f77b4", 
-    "North America": "#2ca02c",
-    "South America": "#9467bd",
+    "NorthAmerica": "#2ca02c",
+    "SouthAmerica": "#9467bd",
     "Africa": "#ff7f0e"
 }
 
@@ -215,7 +215,7 @@ svg.selectAll(".bubble")
   })
   .on("click", (e,d) => {    // event listener to make tooltip remain visible on click
     if(!d.toolTipVisible){
-      d3.select("#bubble-tip-"+d.Country)
+      d3.select("#bubble-tip"+d.Country)
         .style("display", "block");
       d.toolTipVisible = true;
     }
@@ -227,7 +227,7 @@ svg.selectAll(".bubble")
   });
 
   const color = d3.scaleOrdinal()
-    .domain(["Asia & Oceania", "Europe", "North America", "South America", "Africa"])
+    .domain(["AsiaOceania", "Europe", "NorthAmerica", "SouthAmerica", "Africa"])
     .range(d3.schemeSet1);
 
   // Highlight the bubble that is hovered
@@ -240,7 +240,7 @@ svg.selectAll(".bubble")
       .transition()
       .duration(200)
       .style("fill", color(selected_specie))
-      .attr("r", 7);
+      .attr("r", 10);
   };
 
   // Restore normal size and color when not highlighted
@@ -256,7 +256,7 @@ svg.selectAll(".bubble-tip")
   .data(articleData)
   .join("g")
   .attr("class", "bubble-tip")
-  .attr("id", (d)=> "bubble-tip-"+d.Country)
+  .attr("id", (d)=> "bubble-tip-" + d.Country)
   .attr("transform", d => "translate(" + (xScale( d.Fertility )+2) + ", " + yScale( d.Happiness) + ")"  )
   .style("display", "none")   
   .append("rect")     // this is the background to the tooltip
@@ -270,7 +270,7 @@ svg.selectAll(".bubble-tip")
 
   svg.selectAll(".bubble-tip")
   .append("text")
-  .text(d =>d.Country)
+  .text(d => d.Country)
   .style("font-family", "sans-serif")
   .attr("x", 15)
   .style("font-size", 14)
@@ -354,7 +354,7 @@ document.getElementById("select-y-var").addEventListener("change", (e)=>{
 
   // Add a scale for bubble color
   const myColor = d3.scaleOrdinal()
-    .domain(["Asia & Oceania", "Europe", "North America", "South America", "Africa"])
+    .domain(["AsiaOceania", "Europe", "NorthAmerica", "SouthAmerica", "Africa"])
     .range(d3.schemeSet1);
 
     // Add legend: circles
@@ -364,7 +364,7 @@ document.getElementById("select-y-var").addEventListener("change", (e)=>{
 
     // Add one dot in the legend for each name.
     const size = 20
-    const allgroups = ["Asia & Oceania", "Europe", "North America", "South America", "Africa"]
+    const allgroups = ["AsiaOceania", "Europe", "NorthAmerica", "SouthAmerica", "Africa"]
     svg.selectAll("myrect")
       .data(allgroups)
       .join("circle")
@@ -375,15 +375,17 @@ document.getElementById("select-y-var").addEventListener("change", (e)=>{
         .on("mouseover", highlightlegend)
         .on("mouseleave", noHighlightlegend)
 
+      const legendText = ["Asia & Oceania", "Europe", "North America", "South America", "Africa"];
+
     // Add labels beside legend dots
     svg.selectAll("mylabels")
-      .data(allgroups)
+      .data(["AsiaOceania", "Europe", "NorthAmerica", "SouthAmerica", "Africa"])
       .enter()
       .append("text")
         .attr("x", -400 + size*.8)
         .attr("y", (d,i) =>  92 + i * (size + 5) + (size/2)) // 100 is where the first dot appears. 25 is the distance between dots
         .style("fill", d => myColor(d))
-        .text(d => d)
+        .text((d, i) => legendText[i])
         .attr("text-anchor", "left")
         .style("alignment-baseline", "middle")
         .on("mouseover", highlightlegend)
